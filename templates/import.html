@@ -1,0 +1,26 @@
+{% extends base if base else "layout.html" %}
+
+{% block title %}
+Import bookmarks
+{% endblock %}
+
+{% block content %}
+  <form method="post"
+        enctype="multipart/form-data"
+        class="default-form">
+    <h2>Import bookmarks</h2>
+    <input class="input-block-level" type="file"
+           name="file" placeholder="Path">
+
+    <div class="text-right">
+      <a class="btn btn-small" 
+         href="{{ url_for('show_bookmarks', **request.args) }}">
+        Cancel
+      </a>
+      <button class="btn btn-primary" type="submit">
+        Save
+      </button>
+    </div>
+  </form>
+
+{% endblock %}

@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title %}Welcome{% endblock %} | MiniMarks</title>
+    <link href="{{ url_for('static',
+                filename='bootstrap/css/bootstrap.min.css') }}"
+          rel="stylesheet">
+    <style type="text/css">
+      /* Sticky footer styles
+      -------------------------------------------------- */
+
+      html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -60px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #push,
+      footer {
+        height: 60px;
+      }
+
+      footer {
+        background-color: #f5f5f5;
+        text-align: center;
+      }
+
+      .popup-content {
+        margin: 20px;
+      }
+
+      /* Lastly, apply responsive CSS fixes as necessary */
+      @media (max-width: 767px) {
+        footer {
+          margin-left: -20px;
+          margin-right: -20px;
+          padding-left: 20px;
+          padding-right: 20px;      
+        }
+        #push,
+          footer {
+          height: 120px;
+        }
+        #wrap {
+          /* Negative indent footer by it's height */
+          margin: 0 auto -120px;
+        }
+      }
+
+      /* Custom page CSS
+      -------------------------------------------------- */
+      /* Not required for template or sticky footer method. */
+
+      #wrap > .container {
+        padding-top: 0px;
+      }
+      .container .credit {
+        padding-top: 20px;
+        margin: 0px 0;
+      }
+
+      code {
+        font-size: 80%;
+      }
+
+      .default-form {
+        max-width: 300px;
+        padding: 19px 29px 29px;
+        margin: 0 auto 20px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        -webkit-border-radius: 5px;
+           -moz-border-radius: 5px;
+                border-radius: 5px;
+        -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      }
+
+      .default-form h2 {
+        margin-bottom: 10px;
+      }
+
+      .default-form input[type="text"],
+      .default-form input[type="password"] {
+        font-size: 16px;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 7px 9px;
+      }
+
+      /* Imports from Bootstrap 2.3.1 */
+
+      .text-center {
+        text-align: center;
+      }
+
+      small {
+        font-size: 85%;
+      }
+
+      .text-warning {
+        color: #c09853;
+      }
+  
+      a.text-warning:hover,
+      a.text-warning:focus {
+        color: #a47e3c;
+      }
+
+      ul.inline,
+      ol.inline {
+        margin-left: 0;
+        list-style: none;
+      }
+  
+      ul.inline > li,
+      ol.inline > li {
+        display: inline-block;
+        *display: inline;
+        padding-right: 5px;
+        padding-left: 5px;
+        *zoom: 1;
+      }
+
+    </style>
+    <link href="{{ url_for('static',
+                filename='bootstrap/css/bootstrap-responsive.min.css') }}"
+          rel="stylesheet">
+  </head>
+  
+  <body>
+    {% block body %}
+    {% endblock %}
+
+    <script src="{{ url_for('static', 
+                 filename='bootstrap/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', 
+                 filename='bootstrap/js/bootstrap.min.js') }}"></script>
+
+    {% block handlers %}
+    {% endblock %}
+  </body>
+  
+</html>

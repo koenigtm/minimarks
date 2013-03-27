@@ -1,0 +1,19 @@
+{% extends base if base else "layout.html" %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+  <form action="{{ url_for('login', **request.args) }}"
+        class="default-form"
+        method="post">
+    <h2>Log in</h2>
+    <input class="input-block-level" type="text"
+           name="username" placeholder="Username"
+           value="{{ request.form.username }}">
+    <input class="input-block-level" type="password"
+           name="password" placeholder="Password">
+    <button class="btn btn-large btn-block btn-primary" type="submit">
+      Log in
+    </button>
+  </form>
+{% endblock %}

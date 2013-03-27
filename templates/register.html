@@ -1,0 +1,23 @@
+{% extends base if base else "layout.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+
+  <form action="{{ url_for('register', **request.args) }}" 
+        method="post"
+        class="default-form">
+    <h2>Sign up</h2>
+    <input class="input-block-level" type="text"
+           name="username" placeholder="Username"
+           value="{{ request.form.username }}">
+    <input class="input-block-level" type="password"
+           name="password" placeholder="Password">
+    <input class="input-block-level" type="password"
+           name="password2" placeholder="Repeat password">
+    <button class="btn btn-large btn-block btn-primary" type="submit">
+      Sign up
+    </button>
+  </form>
+
+{% endblock %}

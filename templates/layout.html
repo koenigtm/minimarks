@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div id="wrap">
+      <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+          <div class="container">
+            <button class="btn btn-navbar" 
+                    data-target=".nav-collapse" 
+                    data-toggle="collapse" type="button">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="{{ url_for('show_bookmarks') }}">
+              Minimarks
+            </a>
+            <div class="nav-collapse collapse">
+              <ul class="nav pull-right">                
+                {% if g.user %}
+                <li>
+                  <a href="{{ url_for('add_bookmark', 
+                           page=page or 1,
+                           **request.args) }}">
+                    Add a bookmark
+                  </a>
+                </li>
+                <li class="divider-vertical"></li>
+                <li class="dropdown">
+                  <a class="dropdown-toggle"
+                     data-toggle="dropdown"
+                     href="#">
+                    More
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="{{url_for('export_bookmarks')}}" target="_blank">
+                        Export bookmarks
+                      </a>
+                      <a href="{{url_for('import_bookmarks')}}">
+                        Import bookmarks
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="divider-vertical"></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li class="divider-vertical"></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+              </ul>
+{#
+              {% if g.user %}
+              <form class="navbar-search pull-right">
+                <input class="search-query span2" 
+                       type="text" 
+                       placeholder="Search"></input>
+              </form>
+              {% endif %}
+#}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        
+        {% if error %}
+        <div class="alert alert-error"><strong>Error:</strong> {{ error }}</div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}      
+      </div>
+
+      <div id="push"></div>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <ul class="inline credit">
+          <li>MiniMarks &mdash; A Flask Application</li>
+          <li class="muted">·</li>
+          <li>
+            <a href="http://glyphicons.com">Glyphicons Free</a>
+            licensed under 
+            <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+          </li>
+          <li class="muted">·</li>
+          <li>
+            Bookmarklet: 
+            <a class="btn btn-mini" href="javascript:{{
+"""
+(function() {
+    var<<SPACE>>add_bookmark=window.open(
+    '<<URL>>?href='+encodeURIComponent(document.location)+'&'+
+    'title='+encodeURIComponent(document.title)+'&'+
+    'popup',
+    'minimarks_popup',
+    'left='+(window.screenX+30)+','+
+    'top='+(window.screenY+30)+','+
+    'height=300px,width=380px,resizable=yes');
+    add_bookmark.focus();
+    })();
+""" 
+    | replace('<<URL>>', url_for('add_bookmark', _external=True)) 
+    | replace('\n', '')
+    | replace(' ', '')
+    | replace('<<SPACE>>', ' ')
+    }}">Minimarks</a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+{% endblock %}      

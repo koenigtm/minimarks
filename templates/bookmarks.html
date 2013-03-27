@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Bookmarks
+{% endblock %}
+
+{% block content %}
+
+<form class="form-search text-center"
+      method="get">
+    <input class="search-query"
+           type="text" 
+           name="search"
+           value="{{ request.args.search }}">
+    <button type="submit" class="btn">Search</button>
+</form>
+
+<!-- Pagination -->
+<div class="pagination pagination-right pagination-small">
+  <ul>
+    <li{% if 1 == page %} class="disabled"{% endif %}>
+      <a href="{{ url_for('show_bookmarks', page=1, **request.args) }}">
+        First
+      </a>
+    </li>
+    <li{% if 1 == page %} class="disabled"{% endif %}>
+      <a href="{{ url_for('show_bookmarks', page=page-1, **request.args) }}">
+        Previous
+      </a>
+    </li>
+    <li {% if pages == page %} class="disabled"{% endif %}>
+      <a href="{{ url_for('show_bookmarks', page=page+1, **request.args) }}">
+        Next
+      </a>
+    </li>
+    <li {% if pages == page %} class="disabled"{% endif %}>
+      <a href="{{ url_for('show_bookmarks', page=pages, **request.args) }}">
+        Last
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- Bookmarks -->
+{% if bookmarks %}
+<form method="post" 
+      action="{{ url_for('delete_bookmarks', page=page, **request.args) }}">
+  <button id="select_none"
+          disabled="disabled"
+          type="button"
+          class="btn btn-mini">Select none</button>
+  <button id="select_all" 
+          type="button"
+          class="btn btn-mini">Select all</button>
+  <button id="delete_selected" 
+          disabled="disabled"
+          type="submit" 
+          class="btn btn-mini">Delete selected</button>
+  <ul class="unstyled">
+    {% for bookmark in bookmarks %}
+    <li>
+      <input type="checkbox" 
+             name="rowid"
+             value="{{ bookmark.rowid }}">
+      <a href="{{ bookmark.href }}">{{ bookmark.title }}</a>
+      &mdash; 
+      <small>
+        {{ bookmark.pub_date|datetimeformat }}
+        &mdash; 
+        <a href="{{ url_for('edit_bookmark', page=page, rowid=bookmark.rowid, 
+                 **request.args) }}"
+           class="text-warning">
+          Edit
+        </a>
+      </small>
+    </li>
+    {% endfor %}
+  </ul>
+</form>
+{% else %}
+<p class="text-center">
+  <em>There's no bookmark so far.</em>
+</p>
+{% endif %}
+
+<p class="text-center">
+<small class="muted">bookmarks: {{ count }}, pages: {{ pages }}</small>
+</p>
+{% endblock %}
+
+{% block handlers %}
+<script>
+  $("#select_all").click(function() {
+    $(this).prop("disabled", true);
+    $("#select_none").prop("disabled", false);
+    $("#delete_selected").prop("disabled", false);
+    $("input:checkbox").prop("checked", true);
+  });
+  $("#select_none").click(function() {
+    $(this).prop("disabled", true);
+    $("#select_all").prop("disabled", false);
+    $("#delete_selected").prop("disabled", true);
+    $("input:checkbox").prop("checked", false);
+  });
+  $("input:checkbox").click(function() {
+    if ($("input:checkbox:checked").length ==  $("input:checkbox").length) {
+      $("#select_all").prop("disabled", true);
+    } else {
+      $("#select_all").prop("disabled", false);
+    }
+    if ($("input:checkbox:checked").length == 0) {
+      $("#select_none").prop("disabled", true);
+      $("#delete_selected").prop("disabled", true);
+    } else {
+      $("#select_none").prop("disabled", false);
+      $("#delete_selected").prop("disabled", false);
+    }
+  });
+</script>
+{% endblock %}
